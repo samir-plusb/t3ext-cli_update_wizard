@@ -83,6 +83,45 @@ class MigrationCommandController extends CommandController {
 	}
 
 	/**
+	 * perform full migration
+	 *
+	 * @throws \RuntimeException
+	 */
+	public function performAllCommand() {
+		$updates = $this->updateToolService->getAvailableUpdates();
+		if(empty($updates)) {
+			$this->outputLine('No updates available.');
+		} else {
+			foreach($updates as $update) {
+				$this->outputLine('');
+				$this->outputLine($update['identifier']);
+				$this->outputSeperator();
+				$this->outputLine('');
+				$this->outputBlock($update['title']);
+				$this->outputLine('');
+
+				$identifier = $update['identifier'];
+				if($this->doesUpdateNeedToBePerformed($identifier)) {
+					$result = $this->updateToolService->performUpdate($identifier, NULL);
+
+					if($result instanceof OkStatus) {
+						$this->outputLine($result->getTitle());
+					} elseif($result instanceof ErrorStatus) {
+						$this->outputLine($result->getTitle());
+						$this->sendAndExit(1);
+					} else {
+						throw new \RuntimeException(sprintf(
+							'Unexpected return of class %s.', get_class($result)
+						));
+					}
+				} else {
+					$this->outputLine(sprintf('The update "%s" does not need to be performed. Skipping.', $identifier));
+				}
+			}
+		}
+	}
+
+	/**
 	 * returns TRUE if an update has to be performed
 	 *
 	 * @param $identifier
