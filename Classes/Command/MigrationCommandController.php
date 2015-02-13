@@ -88,6 +88,18 @@ class MigrationCommandController extends CommandController {
 	 * @throws \RuntimeException
 	 */
 	public function performAllCommand() {
+
+		/**
+		 * Ordering of migration task is not correct
+		 * TODO: try to fix ordering
+		 */
+		$this->outputLine('');
+		$this->outputLine('force update: extensionManagerTables');
+		$this->updateToolService->performUpdate('extensionManagerTables', NULL);
+		$this->outputLine('force update: sysext_file_init');
+		$this->updateToolService->performUpdate('sysext_file_init', NULL);
+		$this->outputSeperator();
+
 		$updates = $this->updateToolService->getAvailableUpdates();
 		if(empty($updates)) {
 			$this->outputLine('No updates available.');
