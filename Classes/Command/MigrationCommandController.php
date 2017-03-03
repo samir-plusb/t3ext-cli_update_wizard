@@ -65,7 +65,8 @@ class MigrationCommandController extends CommandController {
 	 */
 	public function performCommand($identifier, $userInput = NULL) {
 		if($this->doesUpdateNeedToBePerformed($identifier)) {
-			$result = $this->updateToolService->performUpdate($identifier, $userInput);
+            $this->updateToolService->setInput($identifier, $userInput);
+		    $result = $this->updateToolService->performUpdate();
 
 			if($result instanceof OkStatus) {
 				$this->outputLine($result->getTitle());

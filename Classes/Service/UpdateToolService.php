@@ -40,22 +40,30 @@ class UpdateToolService extends UpgradeWizard {
 	 */
 	protected $view = NULL;
 
+    /**
+     * @param $identifier
+     * @param $userInput
+     * @throws \InvalidArgumentException
+     * @return \TYPO3\CMS\Install\Status\StatusInterface
+     */
+    public function setInput($identifier, $userInput = NULL) {
+        $this->postValues['values']['identifier'] = $identifier;
+        $this->postValues['values'][$identifier] = $userInput;
+
+        if(!array_key_exists($identifier, $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'])) {
+            throw new \InvalidArgumentException(sprintf(
+                '"%s" is no valid identifier for a migration'
+            ));
+        }
+    }
+
+
 	/**
-	 * @param $identifier
-	 * @param $userInput
-	 * @throws \InvalidArgumentException
+     * parent is protected, thus need to override to make public
+     * @throws \TYPO3\CMS\Install\Exception
 	 * @return \TYPO3\CMS\Install\Status\StatusInterface
 	 */
-	public function performUpdate($identifier, $userInput = NULL) {
-		$this->postValues['values']['identifier'] = $identifier;
-		$this->postValues['values'][$identifier] = $userInput;
-
-		if(!array_key_exists($identifier, $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update'])) {
-			throw new \InvalidArgumentException(sprintf(
-				'"%s" is no valid identifier for a migration'
-			));
-		}
-
+	public function performUpdate() {
 		return parent::performUpdate();
 	}
 
