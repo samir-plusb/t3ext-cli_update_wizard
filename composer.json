@@ -6,6 +6,10 @@
         {
             "name": "Christian Zenker",
             "email": "typo3@xopn.de"
+        },
+        {
+            "name": "Samir Rachidi (plus B)",
+            "email": "typo3@plusb.de"
         }
     ],
     "autoload": {
