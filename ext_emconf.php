@@ -4,8 +4,8 @@ $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Executing Install Tool Update Wizard from CLI',
 	'description' => '',
 	'category' => 'be',
-	'author' => 'Christian Zenker',
-	'author_email' => 'typo3@xopn.de',
+	'author' => 'Samir Rachidi (plus B)',
+	'author_email' => 'typo3@plusb.de',
 	'shy' => '',
 	'dependencies' => '',
 	'conflicts' => '',
@@ -20,7 +20,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'version' => '0.0.0',
 	'constraints' => array(
 		'depends' => array(
-			'typo3'=>'6.2.0-0.0.0',
+			'typo3'=>'6.2.0-8.9.99',
 		),
 		'conflicts' => array(
 		),
